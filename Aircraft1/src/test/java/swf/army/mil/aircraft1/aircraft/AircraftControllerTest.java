@@ -61,6 +61,7 @@ public class AircraftControllerTest {
                 .andExpect(status().isOk())
 //                .andExpect(jsonPath("$.pilot").value("Ace"))
                 .andExpect(jsonPath("$.*").isArray());
+        Mockito.verify(aircraftService).findAllAircraft();
 
     }
 
@@ -73,6 +74,7 @@ public class AircraftControllerTest {
                 .get("/api/aircraft/1"))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
+        Mockito.verify(aircraftService).getAnAircraft(1L);
     }
 
 }

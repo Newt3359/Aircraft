@@ -28,7 +28,7 @@ public class AircraftController {
     }
 
     @GetMapping()
-    public ArrayList<Aircraft> getAircraft(){
+    public List<Aircraft> getAircraft(){
         return aircraftService.findAllAircraft();
     }
 }
