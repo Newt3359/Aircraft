@@ -11,6 +11,9 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
+
+import static org.hamcrest.Matchers.hasSize;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,6 +29,9 @@ public class AircraftControllerTest {
     AircraftService aircraftService;
 
     Aircraft shadow = new Aircraft(1L, "Shadow", "Ace");
+    Aircraft warthog = new Aircraft(2L, "Warthog", "Jim");
+    ArrayList<Aircraft> aircrafts = new ArrayList<Aircraft>();
+
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -43,6 +49,30 @@ public class AircraftControllerTest {
                 .andExpect(jsonPath("$.airframe").value("Shadow"))
                 .andExpect(jsonPath("$.pilot").value("Ace"));
         Mockito.verify(aircraftService).saveAircraft(any(Aircraft.class));
+    }
+
+    @Test
+    void shouldGetAllAircraft() throws Exception{
+        aircrafts.add(shadow);
+        aircrafts.add(warthog);
+        Mockito.when(aircraftService.findAllAircraft()).thenReturn(aircrafts);
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/aircraft"))
+                .andExpect(status().isOk())
+//                .andExpect(jsonPath("$.pilot").value("Ace"))
+                .andExpect(jsonPath("$.*").isArray());
+
+    }
+
+    @Test
+    void getAircraftById()throws Exception{
+        aircrafts.add(shadow);
+        aircrafts.add(warthog);
+        Mockito.when(aircraftService.getAnAircraft(1L)).thenReturn(shadow);
+        mockMvc.perform(MockMvcRequestBuilders
+                .get("/api/aircraft/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").value(1));
     }
 
 }

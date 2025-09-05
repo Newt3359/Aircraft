@@ -1,9 +1,9 @@
 package swf.army.mil.aircraft1.aircraft;
 
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/aircraft")
@@ -20,5 +20,15 @@ public class AircraftController {
         return  aircraftService.saveAircraft(aircraft);
 //        Aircraft aircraft1 = new Aircraft(1L,"Shadow","Ace");
 //        return aircraft1;
+    }
+
+    @GetMapping("/{id}")
+    public Aircraft getAnAircraft(@PathVariable Long id){
+    return aircraftService.getAnAircraft(id);
+    }
+
+    @GetMapping()
+    public ArrayList<Aircraft> getAircraft(){
+        return aircraftService.findAllAircraft();
     }
 }
