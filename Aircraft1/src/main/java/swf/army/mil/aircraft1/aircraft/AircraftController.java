@@ -9,9 +9,16 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/api/aircraft")
 public class AircraftController {
 
+    private final AircraftService aircraftService;
+
+    public AircraftController(AircraftService aircraftService){
+        this.aircraftService = aircraftService;
+    }
+
     @PostMapping
     public Aircraft CreateAircraft(@RequestBody Aircraft aircraft){
-        Aircraft aircraft1 = new Aircraft(1L,"Shadow","Ace");
-        return aircraft1;
+        return  aircraftService.saveAircraft(aircraft);
+//        Aircraft aircraft1 = new Aircraft(1L,"Shadow","Ace");
+//        return aircraft1;
     }
 }
