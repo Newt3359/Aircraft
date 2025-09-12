@@ -16,7 +16,7 @@ public class AircraftService {
         this.aircraftRepository = aircraftRepository;
     }
 
-    private ArrayList<Aircraft> aircraftList = new ArrayList<Aircraft>();
+//    private ArrayList<Aircraft> aircraftList = new ArrayList<Aircraft>();
 
     public Aircraft saveAircraft(Aircraft aircraft){
 //        aircraftList.add(aircraft);
