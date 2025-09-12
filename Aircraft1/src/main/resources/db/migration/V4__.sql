@@ -1,0 +1,9 @@
+CREATE SEQUENCE IF NOT EXISTS pilot_seq START WITH 1 INCREMENT BY 50;
+
+CREATE SEQUENCE IF NOT EXISTS aircraft_id_seq;
+ALTER TABLE aircraft
+    ALTER COLUMN id SET NOT NULL;
+ALTER TABLE aircraft
+    ALTER COLUMN id SET DEFAULT nextval('aircraft_id_seq');
+
+ALTER SEQUENCE aircraft_id_seq OWNED BY aircraft.id;

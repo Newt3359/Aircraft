@@ -9,12 +9,14 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import swf.army.mil.aircraft1.Pilot.Pilot;
+
 import java.util.ArrayList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
+@WebMvcTest(AircraftController.class)
 @AutoConfigureMockMvc
 public class AircraftControllerTest {
 
@@ -24,8 +26,9 @@ public class AircraftControllerTest {
     @MockitoBean
     AircraftService aircraftService;
 
-    Aircraft shadow = new Aircraft(1L, "Shadow", "Ace");
-    Aircraft warthog = new Aircraft(2L, "Warthog", "Jim");
+    Pilot pilot = new Pilot(1L,"John", "Doe",28);
+    Aircraft shadow = new Aircraft(1L, "Shadow", pilot);
+    Aircraft warthog = new Aircraft(2L, "Warthog", pilot);
     ArrayList<Aircraft> aircrafts = new ArrayList<Aircraft>();
 
 
@@ -43,7 +46,10 @@ public class AircraftControllerTest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(jsonPath("$.id").value(1))
                 .andExpect(jsonPath("$.airframe").value("Shadow"))
-                .andExpect(jsonPath("$.pilot").value("Ace"));
+                .andExpect(jsonPath("$.pilot.id").value(1))
+                .andExpect(jsonPath("$.pilot.firstName").value("John"))
+                .andExpect(jsonPath("$.pilot.lastName").value("Doe"))
+                .andExpect(jsonPath("$.pilot.age").value(28));
         Mockito.verify(aircraftService).saveAircraft(any(Aircraft.class));
     }
 

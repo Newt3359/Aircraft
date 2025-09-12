@@ -1,8 +1,8 @@
-package swf.army.mil.aircraft1.aircraft;
+package swf.army.mil.aircraft1.Pilot;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface AircraftRepository extends JpaRepository<Aircraft, Long> {
+public interface PilotRepository extends JpaRepository<Pilot, Long> {
 }

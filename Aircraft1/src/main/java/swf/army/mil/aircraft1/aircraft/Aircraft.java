@@ -1,19 +1,23 @@
 package swf.army.mil.aircraft1.aircraft;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
+import org.hibernate.annotations.Cascade;
+import swf.army.mil.aircraft1.Pilot.Pilot;
 
 @Entity
 public class Aircraft {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
         private String airframe;
-        private String pilot;
+        @ManyToOne(cascade = CascadeType.ALL)
+        @JoinColumn(name = "pilot_id")
+        private Pilot pilot;
 
 
-        public Aircraft(){this(null,"none","none");}
+        public Aircraft(){this(null,"none",null);}
 
-        public Aircraft(Long id, String airframe, String pilot){
+        public Aircraft(Long id, String airframe, Pilot pilot){
             this.id = id;
             this.airframe = airframe;
             this.pilot = pilot;
@@ -35,11 +39,11 @@ public class Aircraft {
         this.airframe = airframe;
     }
 
-    public String getPilot() {
+    public Pilot getPilot() {
         return pilot;
     }
 
-    public void setPilot(String pilot) {
+    public void setPilot(Pilot pilot) {
         this.pilot = pilot;
     }
 

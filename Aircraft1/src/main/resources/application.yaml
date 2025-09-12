@@ -1,3 +1,21 @@
 spring:
   application:
     name: Aircraft1
+
+
+  datasource:
+    url: jdbc:postgresql://localhost:5437/aircraft
+    driver-class-name: org.postgresql.Driver
+    username: aircraft_dev
+    password: aircraft_dev12
+  jpa:
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+  flyway:
+    enabled: true
+    locations: classpath:db/migration
+
+server:
+  port: 8080
