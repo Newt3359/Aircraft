@@ -15,10 +15,9 @@ public class Aircraft {
         private Pilot pilot;
 
 
-        public Aircraft(){this(null,"none",null);}
+        public Aircraft(){this("none",null);}
 
-        public Aircraft(Long id, String airframe, Pilot pilot){
-            this.id = id;
+        public Aircraft(String airframe, Pilot pilot){
             this.airframe = airframe;
             this.pilot = pilot;
         }

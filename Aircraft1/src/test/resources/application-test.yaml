@@ -1,0 +1,18 @@
+spring:
+  datasource:
+    url: jdbc:h2:men:testdb;DB_CLOSE_DELAY=-1
+    driverClassName: org.h2.Driver
+    username: sa
+    password: password
+  jpa:
+    database-platform: org.hibernate.dialect.H2Dialect
+    hibernate:
+      ddl-auto: create-drop
+
+  flyway:
+    enabled: true
+    locations: classpath:test/db/migration
+
+  h2:
+    console:
+      enabled: true

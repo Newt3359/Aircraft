@@ -33,4 +33,6 @@ public class PilotController {
         return pilotService.getOnePilot(id);
     }
 
+//    @DeleteMapping("/{id}")
+//    public
 }

@@ -1,6 +1,7 @@
 package swf.army.mil.aircraft1.Pilot;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -12,6 +13,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.util.ArrayList;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -26,8 +28,8 @@ class PilotControllerTest {
     @MockitoBean
     PilotService pilotService;
 
-    Pilot john = new Pilot(1L,"John","Doe", 28);
-    Pilot frank = new Pilot(2L, "Frank", "Cline", 33);
+    Pilot john = new Pilot("John","Doe", 28);
+    Pilot frank = new Pilot("Frank", "Cline", 33);
     ArrayList<Pilot> pilots = new ArrayList<Pilot>();
 
     @Autowired
@@ -35,6 +37,7 @@ class PilotControllerTest {
 
     @Test
     void shouldCreatePilot() throws Exception {
+        john.setId(1L);
         Mockito.when(pilotService.savePilot(any(Pilot.class))).thenReturn(john);
         String johnJson = objectMapper.writeValueAsString(john);
         mockMvc.perform(MockMvcRequestBuilders
@@ -63,6 +66,7 @@ class PilotControllerTest {
 
     @Test
     void getPilotById()throws Exception{
+        john.setId(1L);
         Mockito.when(pilotService.getOnePilot(1L)).thenReturn(john);
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/api/pilot/1"))
@@ -70,6 +74,24 @@ class PilotControllerTest {
                 .andExpect(jsonPath("$.id").value(1));
         Mockito.verify(pilotService).getOnePilot(1L);
     }
+
+    @Test
+    void shouldSaveNewPilot()throws Exception{
+        String johnJson = objectMapper.writeValueAsString(john);
+        mockMvc.perform(MockMvcRequestBuilders
+                .post("/api/pilot")
+                .contentType(MediaType.APPLICATION_JSON)
+                .content(johnJson));
+
+        ArgumentCaptor<Pilot> captor = ArgumentCaptor.forClass(Pilot.class);
+
+        Mockito.verify(pilotService).savePilot(captor.capture());
+        assertThat(captor.getValue()).usingRecursiveComparison().isEqualTo(john);
+
+    }
+
+//    @Test
+//    void deletePilotById
 
 
 }

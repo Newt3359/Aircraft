@@ -43,5 +43,11 @@ public class AircraftService {
 
         return aircraftRepository.findAll();
     }
+    public String deleteAircraft(Long id){
+
+        aircraftRepository.deleteById(id);
+        return "Deleted";
+
+    }
 
 }

@@ -8,16 +8,16 @@ import jakarta.persistence.Id;
 @Entity
 public class Pilot {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
         private Long id;
         private String firstName;
         private String lastName;
         private int age;
 
-        public Pilot(){this(null,"none", "none", 0);}
+        public Pilot(){this("none", "none", 0);}
 
-    public Pilot(Long id, String firstName, String lastName, int age) {
-        this.id = id;
+    public Pilot(String firstName, String lastName, int age) {
+
         this.firstName = firstName;
         this.lastName = lastName;
         this.age = age;

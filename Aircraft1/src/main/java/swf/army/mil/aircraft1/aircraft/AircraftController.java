@@ -31,4 +31,10 @@ public class AircraftController {
     public List<Aircraft> getAircraft(){
         return aircraftService.findAllAircraft();
     }
+
+    @DeleteMapping("/{id}")
+    public String deleteAircraft(@PathVariable Long id){
+        aircraftService.deleteAircraft(id);
+        return "Deleted";
+    }
 }

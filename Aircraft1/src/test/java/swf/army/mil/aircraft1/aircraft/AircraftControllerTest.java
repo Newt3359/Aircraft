@@ -26,9 +26,9 @@ public class AircraftControllerTest {
     @MockitoBean
     AircraftService aircraftService;
 
-    Pilot pilot = new Pilot(1L,"John", "Doe",28);
-    Aircraft shadow = new Aircraft(1L, "Shadow", pilot);
-    Aircraft warthog = new Aircraft(2L, "Warthog", pilot);
+    Pilot pilot = new Pilot("John", "Doe",28);
+    Aircraft shadow = new Aircraft("Shadow", pilot);
+    Aircraft warthog = new Aircraft("Warthog", pilot);
     ArrayList<Aircraft> aircrafts = new ArrayList<Aircraft>();
 
 
@@ -37,6 +37,8 @@ public class AircraftControllerTest {
 
     @Test
     void shouldCreateAircraft() throws Exception{
+        shadow.setId(1L);
+        pilot.setId(1L);
         Mockito.when(aircraftService.saveAircraft(any(Aircraft.class))).thenReturn(shadow);
         String shadowJson = objectMapper.writeValueAsString(shadow);
         mockMvc.perform(MockMvcRequestBuilders
@@ -61,7 +63,6 @@ public class AircraftControllerTest {
         mockMvc.perform(MockMvcRequestBuilders
                 .get("/api/aircraft"))
                 .andExpect(status().isOk())
-//                .andExpect(jsonPath("$.pilot").value("Ace"))
                 .andExpect(jsonPath("$.*").isArray());
         Mockito.verify(aircraftService).findAllAircraft();
 
@@ -69,6 +70,7 @@ public class AircraftControllerTest {
 
     @Test
     void getAircraftById()throws Exception{
+        shadow.setId(1L);
         aircrafts.add(shadow);
         aircrafts.add(warthog);
         Mockito.when(aircraftService.getAnAircraft(1L)).thenReturn(shadow);
@@ -77,6 +79,15 @@ public class AircraftControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value(1));
         Mockito.verify(aircraftService).getAnAircraft(1L);
+    }
+
+    @Test
+    void shouldRemoveAircraft()throws Exception{
+        Mockito.when(aircraftService.deleteAircraft(1L)).thenReturn("Deleted");
+        mockMvc.perform(MockMvcRequestBuilders
+                .delete("/api/aircraft/1"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.id").doesNotExist());
     }
 
 }

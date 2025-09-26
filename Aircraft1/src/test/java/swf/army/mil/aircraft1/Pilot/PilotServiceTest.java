@@ -23,8 +23,8 @@ class PilotServiceTest {
     @InjectMocks
     PilotService pilotService;
 
-    Pilot john = new Pilot(1L,"John","Doe", 28);
-    Pilot frank = new Pilot(2L, "Frank", "Cline", 33);
+    Pilot john = new Pilot("John","Doe", 28);
+    Pilot frank = new Pilot("Frank", "Cline", 33);
     ArrayList<Pilot> pilots = new ArrayList<Pilot>();
 
     @Test

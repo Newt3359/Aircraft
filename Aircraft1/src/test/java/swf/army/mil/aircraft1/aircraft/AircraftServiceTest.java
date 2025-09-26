@@ -23,9 +23,9 @@ class AircraftServiceTest {
     AircraftService aircraftService;
 
     ArrayList <Aircraft> aircrafts = new ArrayList<Aircraft>();
-    Pilot pilot = new Pilot(1L,"John", "Doe",28);
-    Aircraft raptor = new Aircraft(3L, "Raptor", pilot);
-    Aircraft shadow = new Aircraft(1L,"Shadow",pilot);
+    Pilot pilot = new Pilot("John", "Doe",28);
+    Aircraft raptor = new Aircraft("Raptor", pilot);
+    Aircraft shadow = new Aircraft("Shadow",pilot);
 
 
     @Test
@@ -61,5 +61,12 @@ class AircraftServiceTest {
 
         verify (aircraftRepository, times(1)).findById(1L);
         assertThat(foundSingleAircraft).isEqualTo(shadow);
+    }
+
+    @Test
+    void shouldDeleteAircraft(){
+
+        aircraftService.deleteAircraft(1L);
+        verify(aircraftRepository, times(1)).deleteById(1L);
     }
 }
